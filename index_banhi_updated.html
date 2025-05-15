@@ -1,0 +1,169 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Banhi 💖</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #1a1a1a;
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      padding: 20px;
+      text-align: center;
+    }
+    .typing-text {
+      font-size: 1.5rem;
+      border-right: 2px solid white;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 4s steps(40, end) forwards, blink 0.75s step-end infinite;
+      max-width: 90vw;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink {
+      50% { border-color: transparent; }
+    }
+    .gif-section {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 20px;
+    }
+    .gif-section video {
+      max-width: 90vw;
+      border-radius: 20px;
+      box-shadow: 0 0 20px #ff69b4;
+    }
+    .proposal {
+      margin-top: 20px;
+      font-size: 1.8rem;
+      display: none;
+    }
+    .yes-button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      background-color: pink;
+      color: black;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      display: none;
+    }
+    .final-message {
+      display: none;
+      font-size: 1.5rem;
+      color: #ffb6c1;
+      margin-top: 20px;
+    }
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+    }
+    .music-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 10px;
+      background-color: #ff69b4;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button class="music-button" onclick="document.getElementById('romantic-audio').play()">🎵 Play Music</button>
+  <audio id="romantic-audio" loop>
+    <source src="https://dl.sndup.net/4p92/Yeh%20Raaten%20Yeh%20Mausam%20-%20Sonu%20Nigam.mp3" type="audio/mpeg" />
+  </audio>
+
+  <div class="typing-text" id="welcome-text">Welcome Madam... Babin is waiting for you...</div>
+
+  <div class="gif-section" id="gif-section">
+    <video autoplay loop muted playsinline>
+      <source src="VID_20250515_232848_327.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="proposal" id="proposal-text">💍 Will you marry me, Banhi?</div>
+    <button class="yes-button" onclick="showFinalMessage()">💖 YES! 💖</button>
+    <div class="final-message" id="final-message">You’ve made Babin the happiest person alive! 💕</div>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script>
+    setTimeout(() => {
+      document.getElementById('welcome-text').style.display = 'none';
+      const gifSection = document.getElementById('gif-section');
+      gifSection.style.display = 'flex';
+
+      setTimeout(() => {
+        document.getElementById('proposal-text').style.display = 'block';
+        document.querySelector('.yes-button').style.display = 'inline-block';
+      }, 3000);
+    }, 5000);
+
+    function showFinalMessage() {
+      document.getElementById('final-message').style.display = 'block';
+      launchConfetti();
+    }
+
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let confetti = [];
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    function ConfettiPiece() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height - canvas.height;
+      this.radius = Math.random() * 6 + 4;
+      this.color = `hsl(${Math.random() * 360}, 100%, 70%)`;
+      this.dy = Math.random() * 3 + 2;
+      this.dx = Math.random() - 0.5;
+    }
+
+    function launchConfetti() {
+      confetti = [];
+      for (let i = 0; i < 200; i++) {
+        confetti.push(new ConfettiPiece());
+      }
+      animateConfetti();
+    }
+
+    function animateConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < confetti.length; i++) {
+        let c = confetti[i];
+        ctx.beginPath();
+        ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+        ctx.fillStyle = c.color;
+        ctx.fill();
+        c.y += c.dy;
+        c.x += c.dx;
+
+        if (c.y > canvas.height) {
+          c.y = -10;
+        }
+      }
+      requestAnimationFrame(animateConfetti);
+    }
+  </script>
+</body>
+</html>
